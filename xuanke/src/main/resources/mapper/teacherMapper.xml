@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiao.boot.mapper.TeacherMapper">
+    <!--    添加课程信息-->
+    <insert id="addCourse">
+        insert into course values(#{id},#{name},#{total},#{num},#{teacher})
+    </insert>
+    <!--    根据id查找个人信息-->
+    <select id="findTeacherById" resultType="com.xiao.boot.bean.Teacher">
+        select * from teacher where id = #{id}
+    </select>
+    <!--    修改人信息-->
+    <update id="updateSelfInfo" parameterType="com.xiao.boot.bean.Teacher">
+        update teacher set name = #{name},sex = #{sex},academy = #{academy},title = #{title} where id = #{id}
+    </update>
+    <!--    查找自己添加的课程-->
+    <select id="findAllCourseByTeacherId" resultType="java.util.HashMap" parameterType="string">
+        select c.id,c.name,total,num,t.name as tname from course c join teacher t on c.teacher = t.id where c.teacher = #{id}
+    </select>
+
+    <select id="findStudents" resultType="com.xiao.boot.bean.Student" parameterType="string">
+        select * from student where id in (select student_id from xuanke where course_id = #{courseId} and teacher_id = #{teacherId})
+    </select>
+</mapper>

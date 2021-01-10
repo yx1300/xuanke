@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiao.boot.mapper.StudentMapper">
+    <!--    根据id查找个人信息-->
+    <select id="findStudentById" resultType="com.xiao.boot.bean.Student">
+        select * from student where id = #{id}
+    </select>
+    <!--    修改人信息-->
+    <update id="updateSelfInfo" parameterType="com.xiao.boot.bean.Student">
+        update student set name = #{name},sex = #{sex},classname = #{classname},major = #{major} where id = #{id}
+    </update>
+    <!--    查找所有课程信息-->
+    <select id="findAllCourse" resultType="java.util.HashMap">
+        select c.id,c.name,total,num,t.name as tname,t.id as teacherId from course c join teacher t on c.teacher = t.id
+    </select>
+
+    <!--    查找所有可以选课信息-->
+    <select id="findChosenCourse" resultType="java.util.HashMap" parameterType="string">
+        select c.id,c.name,total,num,t.name as tname,t.id as teacherId from course c join teacher t on c.teacher = t.id where total > num
+        and c.id not in (select course_id from xuanke where student_id = #{studentId})
+    </select>
+    <!--    添加选课信息-->
+    <insert id="chooseCourse" parameterType="string">
+        insert into xuanke values(#{courseId},#{teacherId},#{studentId})
+    </insert>
+
+    <!--    修改课程人数-->
+    <update id="updateCourseNum" parameterType="string">
+        update course set num = num + 1 where id = #{id}
+    </update>
+
+
+
+</mapper>

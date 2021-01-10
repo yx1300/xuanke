@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiao.boot.mapper.AdminMapper">
+<!--    添加教师信息-->
+    <insert id="addTeacher">
+        insert into teacher values (#{id},#{name},#{sex},#{academy},#{title})
+    </insert>
+<!--    添加学生信息-->
+    <insert id="addStudent">
+        insert into student values (#{id},#{name},#{sex},#{classname},#{major})
+    </insert>
+</mapper>
